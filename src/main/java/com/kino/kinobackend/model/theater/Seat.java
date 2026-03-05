@@ -17,7 +17,7 @@ public class Seat {
     boolean inoperable;
 
     @ManyToOne
-    @JoinColumn(name = "row", referencedColumnName = "id")
+    @JoinColumn(name = "theater_row", referencedColumnName = "id")
     private Row row;
 
     @Enumerated(EnumType.ORDINAL)
