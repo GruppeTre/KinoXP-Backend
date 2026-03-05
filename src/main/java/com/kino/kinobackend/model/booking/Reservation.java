@@ -19,6 +19,7 @@ public class Reservation {
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
+
     private LocalDateTime created_at;
     private int phone_number;
     private String email;
