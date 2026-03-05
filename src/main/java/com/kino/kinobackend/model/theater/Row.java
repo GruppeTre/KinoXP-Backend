@@ -9,6 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
+@Table(name = "theater_row")
 public class Row {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
