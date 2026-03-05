@@ -1,10 +1,7 @@
 package com.kino.kinobackend.model.booking;
 
 import com.kino.kinobackend.model.theater.Seat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,5 +24,7 @@ public class Reservation {
     private String email;
     private String name;
     private int showing_id;
+
+    @OneToMany
     private List<Seat> seats;
 }
