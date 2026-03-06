@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Setter
@@ -17,5 +19,17 @@ public class Theater {
     int Id;
     String name;
 
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Row> rows;
+
+    public void addRow(Row row) {
+        this.rows.add(row);
+        row.setTheater(this);
+    }
+
+    public void removeRow(Row row) {
+        this.rows.remove(row);
+        row.setTheater(null);
+    }
 
 }

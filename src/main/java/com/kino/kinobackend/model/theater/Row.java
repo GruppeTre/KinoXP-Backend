@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Setter
 @Entity
-@Table(name = "theater_row")
+@Table(name = "seating_row")
 public class Row {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +19,20 @@ public class Row {
     String name;
 
     @ManyToOne
-    @JoinColumn(name = "theater", referencedColumnName = "id")
+    @JoinColumn(name = "theater_id")
     private Theater theater;
+
+    @OneToMany(mappedBy = "row", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Seat> seats;
+
+    public void addSeat(Seat seat) {
+        this.seats.add(seat);
+        seat.setRow(this);
+    }
+
+    public void removeSeat(Seat seat) {
+        this.seats.remove(seat);
+        seat.setRow(null);
+    }
 
 }
