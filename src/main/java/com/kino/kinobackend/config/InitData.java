@@ -21,10 +21,10 @@ public class InitData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initialize();
+        initializeTheater();
     }
 
-    private void initialize() {
+    private void initializeTheater() {
         //create row one
         Row rowOne = new Row();
         rowOne.setName("a");
