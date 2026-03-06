@@ -1,10 +1,12 @@
 package com.kino.kinobackend.model.theater;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -20,10 +22,11 @@ public class Row {
 
     @ManyToOne
     @JoinColumn(name = "theater_id")
+    @JsonBackReference
     private Theater theater;
 
     @OneToMany(mappedBy = "row", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Seat> seats;
+    private List<Seat> seats = new ArrayList<>();
 
     public void addSeat(Seat seat) {
         this.seats.add(seat);

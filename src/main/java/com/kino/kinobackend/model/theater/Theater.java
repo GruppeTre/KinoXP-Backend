@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -20,7 +21,7 @@ public class Theater {
     String name;
 
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Row> rows;
+    private List<Row> rows = new ArrayList<>();
 
     public void addRow(Row row) {
         this.rows.add(row);
