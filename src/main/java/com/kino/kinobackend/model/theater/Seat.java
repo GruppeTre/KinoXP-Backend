@@ -13,7 +13,7 @@ import lombok.ToString;
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int Id;
+    int id;
 
     String name;
     boolean inoperable;
