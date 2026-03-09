@@ -4,16 +4,14 @@ import com.kino.kinobackend.model.booking.Reservation;
 import com.kino.kinobackend.model.movie.Movie;
 import com.kino.kinobackend.service.movie.MovieService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/movie")
+@CrossOrigin("*")
 public class MovieController {
 
 

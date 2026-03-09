@@ -25,10 +25,10 @@ public class Movie {
     private String director;
     private LocalDate premiere;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rating_id", referencedColumnName = "id")
     private Rating rating;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Genre> genres;
 }
