@@ -25,41 +25,25 @@ public class InitData implements CommandLineRunner {
     }
 
     private void initializeTheater() {
-        //create row one
-        Row rowOne = new Row();
-        rowOne.setName("a");
-
-        Seat rowOneSeatOne = new Seat();
-        rowOneSeatOne.setName("2");
-        rowOneSeatOne.setType(SeatType.NORMAL);
-
-        Seat rowOneSeatTwo = new Seat();
-        rowOneSeatTwo.setName("4");
-        rowOneSeatTwo.setType(SeatType.NORMAL);
-
-        rowOne.addSeat(rowOneSeatOne);
-        rowOne.addSeat(rowOneSeatTwo);
-
-        //create row two
-        Row rowTwo = new Row();
-        rowTwo.setName("B");
-
-        Seat rowTwoSeatOne = new Seat();
-        rowTwoSeatOne.setName("2");
-        rowTwoSeatOne.setType(SeatType.NORMAL);
-
-        Seat rowTwoSeatTwo = new Seat();
-        rowTwoSeatTwo.setName("4");
-        rowTwoSeatTwo.setType(SeatType.NORMAL);
-
-        rowTwo.addSeat(rowTwoSeatOne);
-        rowTwo.addSeat(rowTwoSeatTwo);
-
-        //Create theater
         Theater theater = new Theater();
         theater.setName("Sal 1");
-        theater.addRow(rowOne);
-        theater.addRow(rowTwo);
+
+        char[] rowNames = {'A', 'B', 'C', 'D'};
+
+        for (int i = 0; i < 4; i++) {
+            Row row = new Row();
+            row.setName(String.valueOf(rowNames[i]));
+
+            for (int j = 1; j <= 10; j++) {
+                Seat seat = new Seat();
+                seat.setName(String.valueOf(j));
+                seat.setType(SeatType.NORMAL);
+
+                row.addSeat(seat);
+            }
+
+            theater.addRow(row);
+        }
 
         theaterService.add(theater);
     }
