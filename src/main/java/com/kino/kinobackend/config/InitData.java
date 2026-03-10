@@ -7,6 +7,9 @@ import com.kino.kinobackend.model.theater.Row;
 import com.kino.kinobackend.model.theater.Seat;
 import com.kino.kinobackend.model.theater.SeatType;
 import com.kino.kinobackend.model.theater.Theater;
+import com.kino.kinobackend.repository.movie.GenreRepository;
+import com.kino.kinobackend.repository.movie.MovieRepository;
+import com.kino.kinobackend.repository.movie.RatingRepository;
 import com.kino.kinobackend.service.theater.RowService;
 import com.kino.kinobackend.service.theater.SeatService;
 import com.kino.kinobackend.service.theater.TheaterService;
@@ -24,11 +27,15 @@ public class InitData implements CommandLineRunner {
 
     private final RowService rowService;
     private final SeatService seatService;
+    private final MovieRepository movieRepository;
+    private final GenreRepository genreRepository;
+    private final RatingRepository ratingRepository;
     private final TheaterService theaterService;
 
     @Override
     public void run(String... args) throws Exception {
         initializeTheater();
+        initializeMovies();
     }
 
     private void initializeTheater() {
