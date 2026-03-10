@@ -1,5 +1,6 @@
 package com.kino.kinobackend.config;
 
+import com.kino.kinobackend.model.booking.Showing;
 import com.kino.kinobackend.model.movie.Genre;
 import com.kino.kinobackend.model.movie.Movie;
 import com.kino.kinobackend.model.movie.Rating;
@@ -10,6 +11,7 @@ import com.kino.kinobackend.model.theater.Theater;
 import com.kino.kinobackend.repository.movie.GenreRepository;
 import com.kino.kinobackend.repository.movie.MovieRepository;
 import com.kino.kinobackend.repository.movie.RatingRepository;
+import com.kino.kinobackend.service.booking.ShowingService;
 import com.kino.kinobackend.service.theater.RowService;
 import com.kino.kinobackend.service.theater.SeatService;
 import com.kino.kinobackend.service.theater.TheaterService;
@@ -18,7 +20,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -27,6 +32,7 @@ public class InitData implements CommandLineRunner {
 
     private final RowService rowService;
     private final SeatService seatService;
+    private final ShowingService showingService;
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
     private final RatingRepository ratingRepository;
@@ -36,6 +42,7 @@ public class InitData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         initializeTheater();
         initializeMovies();
+        initializeShowings();
     }
 
     private void initializeTheater() {
@@ -111,5 +118,37 @@ public class InitData implements CommandLineRunner {
 
         movieRepository.save(movie1);
         movieRepository.save(movie2);
+    }
+
+    private void initializeShowings() {
+
+        List<Theater> theaters = theaterService.findAll();
+        List<Movie> movies = movieRepository.findAll();
+
+        //Showings for today
+        Showing showing1 = new Showing();
+        showing1.setPrice(95);
+        showing1.setMovie(movies.getFirst());
+        showing1.setTheater(theaters.getFirst());
+        showing1.setTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 30)));
+
+        Showing showing3 = new Showing();
+        showing3.setPrice(95);
+        showing3.setMovie(movies.getFirst());
+        showing3.setTheater(theaters.getFirst());
+        showing3.setTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(19,0)));
+
+        //Showings for tomorrow
+        Showing showing2 = new Showing();
+        showing2.setPrice(95);
+        showing2.setMovie(movies.getFirst());
+        showing2.setTheater(theaters.getFirst());
+        showing2.setTime(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(12, 30)));
+
+
+        showingService.add(showing1);
+        showingService.add(showing2);
+        showingService.add(showing3);
+
     }
 }
