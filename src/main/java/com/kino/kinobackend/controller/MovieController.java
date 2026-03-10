@@ -4,14 +4,12 @@ import com.kino.kinobackend.model.booking.Reservation;
 import com.kino.kinobackend.model.movie.Movie;
 import com.kino.kinobackend.service.movie.MovieService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/movie")
 public class MovieController {
@@ -24,6 +22,12 @@ public class MovieController {
     }
 
     // GET ENDPOINTS
+    @GetMapping("")
+    public ResponseEntity<List<Movie>> getMovies() {
+        List<Movie> movies = movieService.getAllMovies();
+
+        return ResponseEntity.ok(movies);
+    }
 
     @GetMapping("/running")
     public ResponseEntity<List<Movie>> getRunningMovies() {
@@ -31,6 +35,7 @@ public class MovieController {
 
         return ResponseEntity.ok(movies);
     }
+
 
     @GetMapping("/upcoming")
     public ResponseEntity<List<Movie>> getUpcomingMovies() {
