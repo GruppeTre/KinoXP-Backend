@@ -3,7 +3,9 @@ package com.kino.kinobackend.init;
 import com.kino.kinobackend.model.movie.Genre;
 import com.kino.kinobackend.model.movie.Movie;
 import com.kino.kinobackend.model.movie.Rating;
+import com.kino.kinobackend.repository.movie.GenreRepository;
 import com.kino.kinobackend.repository.movie.MovieRepository;
+import com.kino.kinobackend.repository.movie.RatingRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +18,7 @@ public class DataLoader {
 
     @Bean
     public CommandLineRunner loadData(
-            MovieRepository movieRepo
+            MovieRepository movieRepo, GenreRepository genreRepo, RatingRepository ratingRepo
     ) {
         return args -> {
 
@@ -25,16 +27,22 @@ public class DataLoader {
             pg13.setName("Parents Strongly Cautioned");
             pg13.setAbbreviation("PG-13");
 
+            ratingRepo.save(pg13);
+
+
 
             // --- Create Genres ---
             Genre action = new Genre();
             action.setName("Action");
+            genreRepo.save(action);
 
             Genre sciFi = new Genre();
             sciFi.setName("Sci-Fi");
+            genreRepo.save(sciFi);
 
             Genre drama = new Genre();
             drama.setName("Drama");
+            genreRepo.save(drama);
 
 
             // --- Create Movie ---
@@ -52,6 +60,19 @@ public class DataLoader {
             movieRepo.save(movie);
 
             System.out.println("Sample data inserted into MySQL");
+
+            Movie movie1 = new Movie();
+            movie1.setTitle("Narnia");
+            movie1.setImgHref("http://example.com/narnia.jpg");
+            movie1.setDescription("A group of children enters a closet");
+            movie1.setDirector("Who Knows This?");
+            movie1.setPremiere(LocalDate.of(2026, 6, 10));
+
+            movie1.setRating(pg13);
+
+            movie1.setGenres(Set.of(action, drama, sciFi));
+
+            movieRepo.save(movie1);
         };
     }
 }
