@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class Movie {
     private String imgHref;
     private String description;
     private String director;
-    private LocalDateTime premiere;
+    private LocalDate premiere;
 
     @ManyToOne
     @JoinColumn(name = "rating_id", referencedColumnName = "id")

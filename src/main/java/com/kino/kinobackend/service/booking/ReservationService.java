@@ -1,0 +1,29 @@
+package com.kino.kinobackend.service.booking;
+
+import com.kino.kinobackend.model.booking.Reservation;
+import com.kino.kinobackend.repository.booking.ReservationRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ReservationService {
+    
+    private final ReservationRepository repository;
+    
+    public ReservationService (ReservationRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<Reservation> getAll() {
+        return this.repository.findAll();
+    }
+    public Optional<Reservation> getById(int id) {
+        return this.repository.findById(id);
+    }
+
+    public Optional<List<Reservation>> getByEmail(String email) {
+        return this.repository.findAllByEmail(email);
+    }
+}
