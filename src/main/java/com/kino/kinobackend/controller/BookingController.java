@@ -50,11 +50,13 @@ public class BookingController {
     }
 
     // showing
-    @GetMapping("/showing")
+    @GetMapping("/showings")
     public ResponseEntity<List<Showing>> getAllShowings() {
         List<Showing> showings = showingService.getAll();
 
         return ResponseEntity.ok(showings);
     }
+
+
 
 }
