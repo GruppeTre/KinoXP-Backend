@@ -2,15 +2,11 @@ package com.kino.kinobackend.controller;
 
 import com.kino.kinobackend.model.booking.Reservation;
 import com.kino.kinobackend.model.booking.Showing;
-import com.kino.kinobackend.repository.booking.ShowingRepository;
 import com.kino.kinobackend.service.booking.ReservationService;
 import com.kino.kinobackend.service.booking.ShowingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +17,10 @@ public class BookingController {
 
     private final ReservationService reservationService;
     private final ShowingService showingService;
-    private final ShowingRepository showingRepository;
 
-    public BookingController(ReservationService reservationService, ShowingService showingService, ShowingRepository showingRepository) {
+    public BookingController(ReservationService reservationService, ShowingService showingService) {
         this.reservationService = reservationService;
         this.showingService = showingService;
-        this.showingRepository = showingRepository;
     }
 
 /*
@@ -53,7 +47,7 @@ public class BookingController {
     }
 
     // showing
-    @GetMapping("/showings")
+    @GetMapping("/showing")
     public ResponseEntity<List<Showing>> getAllShowings() {
         List<Showing> showings = showingService.getAll();
 
@@ -61,5 +55,26 @@ public class BookingController {
     }
 
 
+    @GetMapping(value = "/showing", params = "movieId")
+    public ResponseEntity<List<Showing>> getAllShowingsByMovieId(@RequestParam int movieId) {
+        Optional<List<Showing>> result = showingService.getByMovieId(movieId);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(result.get());
+    }
+
+    //getShowingById
+    @GetMapping("/showing/{id}")
+    public ResponseEntity<Showing> getShowingById(@PathVariable int id){
+        Optional<Showing> result = showingService.getById(id);
+
+        if(result.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(result.get());
+    }
 
 }

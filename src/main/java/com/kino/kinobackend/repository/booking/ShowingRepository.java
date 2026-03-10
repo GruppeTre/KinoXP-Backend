@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ShowingRepository extends JpaRepository<Showing, Integer> {
-    public Optional<List<Showing>> findByMovie_Id(int id);
+    Optional<List<Showing>> findByMovie_Id(int id);
 }
