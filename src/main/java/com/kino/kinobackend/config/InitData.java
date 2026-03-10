@@ -42,6 +42,9 @@ public class InitData implements CommandLineRunner {
                 row.addSeat(seat);
             }
 
+            row.getSeats().getLast().setInoperable(true);
+            row.getSeats().get(4).setInoperable(true);
+            row.getSeats().getFirst().setInoperable(true);
             theater.addRow(row);
         }
 
