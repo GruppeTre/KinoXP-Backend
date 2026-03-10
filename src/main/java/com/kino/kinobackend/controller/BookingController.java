@@ -2,6 +2,7 @@ package com.kino.kinobackend.controller;
 
 import com.kino.kinobackend.model.booking.Reservation;
 import com.kino.kinobackend.model.booking.Showing;
+import com.kino.kinobackend.repository.booking.ShowingRepository;
 import com.kino.kinobackend.service.booking.ReservationService;
 import com.kino.kinobackend.service.booking.ShowingService;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,12 @@ public class BookingController {
 
     private final ReservationService reservationService;
     private final ShowingService showingService;
+    private final ShowingRepository showingRepository;
 
-    public BookingController(ReservationService reservationService, ShowingService showingService) {
+    public BookingController(ReservationService reservationService, ShowingService showingService, ShowingRepository showingRepository) {
         this.reservationService = reservationService;
         this.showingService = showingService;
+        this.showingRepository = showingRepository;
     }
 
 /*
