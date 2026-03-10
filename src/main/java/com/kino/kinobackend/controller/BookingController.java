@@ -54,9 +54,9 @@ public class BookingController {
         return ResponseEntity.ok(showings);
     }
 
-    //getShowingByMovieId
-    @GetMapping("/showing")
-    public ResponseEntity<List<Showing>> getAllShowings(@RequestParam int movieId) {
+
+    @GetMapping(value = "/showing", params = "movieId")
+    public ResponseEntity<List<Showing>> getAllShowingsByMovieId(@RequestParam int movieId) {
         Optional<List<Showing>> result = showingService.getByMovieId(movieId);
 
         if (result.isEmpty()) {
