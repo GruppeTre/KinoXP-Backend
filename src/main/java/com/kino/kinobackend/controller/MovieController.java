@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/movie")
+@CrossOrigin("*")
 public class MovieController {
 
 
@@ -27,6 +28,12 @@ public class MovieController {
     }
 
     // GET ENDPOINTS
+    @GetMapping("")
+    public ResponseEntity<List<Movie>> getMovies() {
+        List<Movie> movies = movieService.getAllMovies();
+
+        return ResponseEntity.ok(movies);
+    }
 
     @GetMapping("/running")
     public ResponseEntity<List<Movie>> getRunningMovies() {
@@ -34,6 +41,7 @@ public class MovieController {
 
         return ResponseEntity.ok(movies);
     }
+
 
     @GetMapping("/upcoming")
     public ResponseEntity<List<Movie>> getUpcomingMovies() {
