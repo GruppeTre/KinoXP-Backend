@@ -36,6 +36,17 @@ public class BookingController {
         return ResponseEntity.ok(reservations);
     }
 
+    @GetMapping(value = "/reservation", params = "showingId")
+    public ResponseEntity<List<Reservation>> getAllReservationsByShowingId(@RequestParam int showingId) {
+        Optional<List<Reservation>> result = reservationService.getAllByShowingId(showingId);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(result.get());
+    }
+
     @GetMapping("/reservation/{id}")
     public ResponseEntity<Reservation> getReservationById(@PathVariable int id) {
         Optional<Reservation> result = reservationService.getById(id);
@@ -76,6 +87,21 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(result.get());
+    }
+
+/*
+    POST ENDPOINTS
+*/
+
+    @PostMapping("/reservation")
+    public ResponseEntity<Reservation> addReservation(@RequestBody Reservation reservation) {
+        if (reservation == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        Reservation created = reservationService.add(reservation);
+
+        return ResponseEntity.ok(created);
     }
 
 }

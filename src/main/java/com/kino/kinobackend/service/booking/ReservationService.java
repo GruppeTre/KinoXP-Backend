@@ -23,7 +23,15 @@ public class ReservationService {
         return this.repository.findById(id);
     }
 
+    public Optional<List<Reservation>> getAllByShowingId(int showingId) {
+        return this.repository.findAllByShowing_Id(showingId);
+    }
+
     public Optional<List<Reservation>> getByEmail(String email) {
         return this.repository.findAllByEmail(email);
+    }
+
+    public Reservation add(Reservation reservation) {
+        return this.repository.save(reservation);
     }
 }
