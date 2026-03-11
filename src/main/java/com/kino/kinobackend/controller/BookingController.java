@@ -6,14 +6,12 @@ import com.kino.kinobackend.service.booking.ReservationService;
 import com.kino.kinobackend.service.booking.ShowingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
@@ -55,6 +53,16 @@ public class BookingController {
         List<Showing> showings = showingService.getAll();
 
         return ResponseEntity.ok(showings);
+    }
+
+    @GetMapping("/showing/{id}")
+    public ResponseEntity<Showing> getShowingById(@PathVariable int id) {
+        Optional<Showing> result = showingService.getById(id);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(result.get());
     }
 
 }
