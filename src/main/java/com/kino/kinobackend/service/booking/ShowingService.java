@@ -27,4 +27,5 @@ public class ShowingService {
     public Optional <List<Showing>> getByMovieId(int movieId) {
         return this.repository.findByMovie_Id(movieId);
     }
+
 }
