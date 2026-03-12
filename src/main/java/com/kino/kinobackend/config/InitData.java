@@ -1,6 +1,8 @@
 package com.kino.kinobackend.config;
 
+import com.kino.kinobackend.model.booking.Reservation;
 import com.kino.kinobackend.model.booking.Showing;
+import com.kino.kinobackend.model.booking.Status;
 import com.kino.kinobackend.model.movie.Genre;
 import com.kino.kinobackend.model.movie.Movie;
 import com.kino.kinobackend.model.movie.Rating;
@@ -11,10 +13,12 @@ import com.kino.kinobackend.model.theater.Theater;
 import com.kino.kinobackend.repository.movie.GenreRepository;
 import com.kino.kinobackend.repository.movie.MovieRepository;
 import com.kino.kinobackend.repository.movie.RatingRepository;
+import com.kino.kinobackend.service.booking.ReservationService;
 import com.kino.kinobackend.service.booking.ShowingService;
 import com.kino.kinobackend.service.theater.RowService;
 import com.kino.kinobackend.service.theater.SeatService;
 import com.kino.kinobackend.service.theater.TheaterService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -24,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -32,6 +37,7 @@ public class InitData implements CommandLineRunner {
 
     private final RowService rowService;
     private final SeatService seatService;
+    private final ReservationService reservationService;
     private final ShowingService showingService;
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
@@ -39,10 +45,12 @@ public class InitData implements CommandLineRunner {
     private final TheaterService theaterService;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         initializeTheater();
         initializeMovies();
         initializeShowings();
+        initializeReservations();
     }
 
     private void initializeTheater() {
@@ -64,8 +72,6 @@ public class InitData implements CommandLineRunner {
             }
 
             row.getSeats().getLast().setInoperable(true);
-            row.getSeats().get(4).setInoperable(true);
-            row.getSeats().getFirst().setInoperable(true);
             theater.addRow(row);
         }
 
@@ -150,5 +156,47 @@ public class InitData implements CommandLineRunner {
         showingService.add(showing2);
         showingService.add(showing3);
 
+    }
+
+    private void initializeReservations() {
+
+        //reservation 1
+        //books seats 1-3 on the first row
+        Showing showing = showingService.getAll().getFirst();
+        Optional<Theater> theaterResult = theaterService.findById(showing.getTheater().getId());
+        if (theaterResult.isEmpty()) {
+            System.out.println("Could not find theater with id " + showing.getTheater().getId());
+            return;
+        }
+
+        Theater theater = theaterResult.get();
+
+        List<Seat> seatsToReserve= theater.getRows().getFirst().getSeats().subList(0,4);
+        //showing.getTheater().getRows().getFirst().getSeats().subList(0,4);
+
+        Reservation res1 = new Reservation();
+        res1.setStatus(Status.RESERVED);
+        res1.setShowing(showing);
+        res1.setSeats(seatsToReserve);
+        res1.setName("Jørgen");
+        res1.setEmail("Jorgen@test.dk");
+        res1.setPhone_number("11111111");
+        res1.setCreated_at(LocalDateTime.now().minusDays(1));
+
+        //reservation 2
+        //books seats 1-3 on the last row
+        seatsToReserve= theater.getRows().getLast().getSeats().subList(0,4);
+
+        Reservation res2 = new Reservation();
+        res2.setStatus(Status.RESERVED);
+        res2.setShowing(showing);
+        res2.setSeats(seatsToReserve);
+        res2.setName("Erik");
+        res2.setEmail("Erik@test.dk");
+        res2.setPhone_number("22222222");
+        res2.setCreated_at(LocalDateTime.now().minusDays(2));
+
+        reservationService.add(res1);
+        reservationService.add(res2);
     }
 }

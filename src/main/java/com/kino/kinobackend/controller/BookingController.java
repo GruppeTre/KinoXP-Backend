@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/booking")
+@CrossOrigin("*")
 public class BookingController {
 
     private final ReservationService reservationService;
@@ -34,6 +34,17 @@ public class BookingController {
         List<Reservation> reservations = reservationService.getAll();
 
         return ResponseEntity.ok(reservations);
+    }
+
+    @GetMapping(value = "/reservation", params = "showingId")
+    public ResponseEntity<List<Reservation>> getAllReservationsByShowingId(@RequestParam int showingId) {
+        Optional<List<Reservation>> result = reservationService.getAllByShowingId(showingId);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(result.get());
     }
 
     @GetMapping("/reservation/{id}")
@@ -75,7 +86,40 @@ public class BookingController {
         if(result.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
         return ResponseEntity.ok(result.get());
     }
 
+/*
+    POST ENDPOINTS
+*/
+
+    @PostMapping("/reservation")
+    public ResponseEntity<Reservation> addReservation(@RequestBody Reservation reservation) {
+        if (reservation == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        Reservation created = reservationService.add(reservation);
+
+        return ResponseEntity.ok(created);
+    }
+
+/*
+    PUT ENDPOINTS
+*/
+
+    @PutMapping("/reservation/{id}")
+    public ResponseEntity<Reservation> updateReservation(@RequestBody Reservation reservation, @PathVariable int id) {
+
+        if (id != reservation.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Reservation> result = this.reservationService.update(reservation);
+
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
+
+
