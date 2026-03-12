@@ -86,6 +86,7 @@ public class BookingController {
         if(result.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
         return ResponseEntity.ok(result.get());
     }
 
@@ -104,4 +105,21 @@ public class BookingController {
         return ResponseEntity.ok(created);
     }
 
+/*
+    PUT ENDPOINTS
+*/
+
+    @PutMapping("/reservation/{id}")
+    public ResponseEntity<Reservation> updateReservation(@RequestBody Reservation reservation, @PathVariable int id) {
+
+        if (id != reservation.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Reservation> result = this.reservationService.update(reservation);
+
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
+
+

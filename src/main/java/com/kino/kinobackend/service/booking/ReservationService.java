@@ -34,4 +34,14 @@ public class ReservationService {
     public Reservation add(Reservation reservation) {
         return this.repository.save(reservation);
     }
+
+    public Optional<Reservation> update(Reservation reservation) {
+        //check if reservation exists
+        if (!repository.existsById(reservation.getId())) {
+            return Optional.empty();
+        }
+
+        //update reservation and save it
+        return Optional.of(repository.save(reservation));
+    }
 }
