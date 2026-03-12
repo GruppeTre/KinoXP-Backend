@@ -102,7 +102,7 @@ public class InitData implements CommandLineRunner {
         movie1.setTitle("The Dark Knight");
         movie1.setDirector("Christopher Nolan");
         movie1.setDescription("Batman cleans up in Gotham City");
-        movie1.setPremiere(LocalDate.of(2025, 5, 10));
+        movie1.setPremiere(LocalDate.of(2026, 1, 3));
         movie1.setImgHref("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQkUywIUXDjHSQJIaNHYVs08osgBpF5Ot-xmB_omyEZeeRP9Xug");
         movie1.setRating(rating15);
         movie1.setGenres(set1);
@@ -111,7 +111,7 @@ public class InitData implements CommandLineRunner {
         movie2.setTitle("The Mask");
         movie2.setDirector("Chuck Russell");
         movie2.setDescription("A shy bank clerk discovers a magical mask");
-        movie2.setPremiere(LocalDate.of(1994, 7, 29));
+        movie2.setPremiere(LocalDate.of(2026, 1, 3));
         movie2.setImgHref("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiR8_9_An2NlR4qpZE_eSXf0AMYLVX7G9gzRDRqWoyq8axhIhA");
         movie2.setRating(rating15);
         movie2.setGenres(set2);
@@ -147,7 +147,7 @@ public class InitData implements CommandLineRunner {
         //Showings for tomorrow
         Showing showing2 = new Showing();
         showing2.setPrice(95);
-        showing2.setMovie(movies.getFirst());
+        showing2.setMovie(movies.getLast());
         showing2.setTheater(theaters.getFirst());
         showing2.setTime(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(12, 30)));
 
