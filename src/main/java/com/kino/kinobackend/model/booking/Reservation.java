@@ -30,6 +30,6 @@ public class Reservation {
     @ManyToOne
     private Showing showing;
 
-    @OneToMany
+    @ManyToMany
     private List<Seat> seats;
 }
