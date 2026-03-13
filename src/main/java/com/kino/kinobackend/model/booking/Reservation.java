@@ -14,18 +14,22 @@ import java.util.List;
 @Setter
 @ToString
 public class Reservation {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
     private LocalDateTime created_at;
-    private int phone_number;
+    private String phone_number;
     private String email;
     private String name;
-    private int showing_id;
 
-    @OneToMany
+    @ManyToOne
+    private Showing showing;
+
+    @ManyToMany
     private List<Seat> seats;
 }
