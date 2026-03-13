@@ -13,6 +13,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     Optional<List<Reservation>> findAllByShowing_Id(int showingId);
 
-    public Optional<List<Reservation>> findAllByEmail(String mail);
     List<Reservation> findAllByStatus(Status status);
 }
