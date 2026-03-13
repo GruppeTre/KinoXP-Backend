@@ -1,6 +1,5 @@
 package com.kino.kinobackend.service.booking;
 
-import com.kino.kinobackend.model.booking.Reservation;
 import com.kino.kinobackend.model.booking.Showing;
 import com.kino.kinobackend.repository.booking.ShowingRepository;
 import org.springframework.stereotype.Service;
@@ -12,11 +11,9 @@ import java.util.Optional;
 public class ShowingService {
 
     private final ShowingRepository repository;
-    private final ReservationService reservationService;
 
-    public ShowingService(ShowingRepository repository, ReservationService reservationService) {
+    public ShowingService(ShowingRepository repository) {
         this.repository = repository;
-        this.reservationService = reservationService;
     }
 
     public List<Showing> getAll() {
@@ -30,33 +27,4 @@ public class ShowingService {
     public Optional <List<Showing>> getByMovieId(int movieId) {
         return this.repository.findByMovie_Id(movieId);
     }
-
-    public Showing add(Showing showing) {
-        return this.repository.save(showing);
-    }
-
-    public Showing update(Showing showing) {
-        if (showing.getId() == 0 || repository.findById(showing.getId()).isEmpty()) {
-            throw new IllegalArgumentException("Visning findes ikke med id: " + showing.getId());
-        }
-        return repository.save(showing);
-    }
-
-    public boolean delete(int showingId) {
-        System.out.println("Sletter showing med ID: " + showingId);
-
-        Optional<List<Reservation>> reservations = reservationService.getAllByShowingId(showingId);
-
-        if (reservations.isPresent()) {
-            reservations.get().forEach(reservation -> reservationService.delete(reservation.getId()));
-            System.out.println("Tilknyttede reservationer slettet: " + reservations.get().size());
-        }
-
-        repository.deleteById(showingId);
-        System.out.println("Visning slettet: " + showingId);
-
-        return true;
-    }
-
-
 }

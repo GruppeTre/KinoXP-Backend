@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-@Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     List<Movie> findAllByPremiereAfter(LocalDate premiereAfter);
@@ -17,5 +16,4 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             "JOIN Showing s ON s.movie = m " +
             "WHERE m.premiere <= CURRENT_DATE")
     List<Movie> findAllRunning();
-
 }
