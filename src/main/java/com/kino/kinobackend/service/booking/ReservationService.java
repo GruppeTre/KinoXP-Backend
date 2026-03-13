@@ -1,6 +1,7 @@
 package com.kino.kinobackend.service.booking;
 
 import com.kino.kinobackend.model.booking.Reservation;
+import com.kino.kinobackend.model.booking.Showing;
 import com.kino.kinobackend.repository.booking.ReservationRepository;
 import org.springframework.stereotype.Service;
 
@@ -44,4 +45,14 @@ public class ReservationService {
         //update reservation and save it
         return Optional.of(repository.save(reservation));
     }
+
+    public boolean hasReservations(int showingId) {
+        Optional<List<Reservation>> reservations = repository.findAllByShowing_Id(showingId);
+
+        System.out.println("Showing ID: " + showingId);
+        System.out.println("Reservations fundet: " + reservations);
+
+        return reservations.isPresent() && !reservations.get().isEmpty();
+    }
+
 }
