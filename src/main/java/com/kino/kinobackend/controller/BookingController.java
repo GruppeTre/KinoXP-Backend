@@ -183,15 +183,9 @@ public class BookingController {
 
     @DeleteMapping("/showing/{id}")
     public ResponseEntity<Void> deleteShowing(@PathVariable int id) {
-        try {
-            showingService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        showingService.delete(id);
+        return ResponseEntity.noContent().build();
     }
-
-
 }
 
 

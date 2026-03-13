@@ -43,12 +43,18 @@ public class ShowingService {
     }
 
     public boolean delete(int showingId) {
+        System.out.println("Sletter showing med ID: " + showingId);
 
-        if (reservationService.hasReservations(showingId)) {
-            throw new IllegalStateException("Kan ikke slette visning med reserveringer");
+        Optional<List<Reservation>> reservations = reservationService.getAllByShowingId(showingId);
+
+        if (reservations.isPresent()) {
+            reservations.get().forEach(reservation -> reservationService.delete(reservation.getId()));
+            System.out.println("Tilknyttede reservationer slettet: " + reservations.get().size());
         }
 
         repository.deleteById(showingId);
+        System.out.println("Visning slettet: " + showingId);
+
         return true;
     }
 

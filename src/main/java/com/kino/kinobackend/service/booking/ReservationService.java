@@ -50,13 +50,11 @@ public class ReservationService {
         return Optional.of(repository.save(reservation));
     }
 
-    public boolean hasReservations(int showingId) {
-        Optional<List<Reservation>> reservations = repository.findAllByShowing_Id(showingId);
-
-        System.out.println("Showing ID: " + showingId);
-        System.out.println("Reservations fundet: " + reservations);
-
-        return reservations.isPresent() && !reservations.get().isEmpty();
+    public void delete(int reservationId) {
+        if (repository.existsById(reservationId)) {
+            repository.deleteById(reservationId);
+            System.out.println("Reservation slettet: " + reservationId);
+        }
     }
 
 
