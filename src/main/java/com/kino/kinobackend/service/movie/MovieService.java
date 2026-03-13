@@ -31,8 +31,4 @@ public class MovieService {
     public List<Movie> getRunningMovies() {
         return repository.findAllRunning();
     }
-
-    public List<Movie> getAllMovies() {
-        return repository.findAll();
-    }
 }

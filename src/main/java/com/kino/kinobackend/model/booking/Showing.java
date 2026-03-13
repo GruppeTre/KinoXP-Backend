@@ -20,9 +20,9 @@ public class Showing {
     private double price;
     private LocalDateTime time;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Theater theater;
 }

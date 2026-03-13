@@ -26,14 +26,9 @@ public class Movie {
     private LocalDate premiere;
 
     @ManyToOne
-    @JoinColumn(name = "rating_id")
+    @JoinColumn(name = "rating_id", referencedColumnName = "id")
     private Rating rating;
 
     @ManyToMany
-    @JoinTable(
-            name = "movie_genre",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id")
-    )
     private Set<Genre> genres;
 }
