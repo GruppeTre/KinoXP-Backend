@@ -2,6 +2,7 @@ package com.kino.kinobackend.controller;
 
 import com.kino.kinobackend.model.booking.Reservation;
 import com.kino.kinobackend.model.booking.Showing;
+import com.kino.kinobackend.model.booking.Status;
 import com.kino.kinobackend.service.booking.ReservationService;
 import com.kino.kinobackend.service.booking.ShowingService;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,18 @@ public class BookingController {
         return ResponseEntity.ok(result.get());
     }
 
+    @GetMapping("/reservation/active")
+    public ResponseEntity<List<Reservation>> getAllActiveReservations() {
+        List<Reservation> reservations = reservationService.getReservedReservations();
+        return ResponseEntity.ok(reservations);
+    }
+
+    @PutMapping("/reservation/{id}/status")
+    public ResponseEntity<Reservation> updateReservationStatus(@PathVariable int id, @RequestParam Status status) {
+        Reservation updateReservation = reservationService.updateStatus(id, status);
+        return ResponseEntity.ok(updateReservation);
+    }
+
     // showing
     @GetMapping("/showing")
     public ResponseEntity<List<Showing>> getAllShowings() {
@@ -77,7 +90,6 @@ public class BookingController {
         }
         return ResponseEntity.ok(result.get());
     }
-
 
 
 
