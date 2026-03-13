@@ -16,11 +16,9 @@ import java.util.Optional;
 public class ReservationService {
     
     private final ReservationRepository repository;
-    private final ShowingService showingService;
 
-    public ReservationService (ReservationRepository repository, ShowingService showingService) {
+    public ReservationService (ReservationRepository repository) {
         this.repository = repository;
-        this.showingService = showingService;
     }
 
     public List<Reservation> getAll() {
@@ -64,8 +62,8 @@ public class ReservationService {
 
    public List<Reservation> getReservedReservations(){
         return repository.findAllByStatus(Status.RESERVED).stream().filter(reservation -> {
-            Optional<Showing> showing = showingService.getById(reservation.getShowing().getId());
-            return showing.isPresent() && !showing.get().getTime().toLocalDate().isBefore(LocalDate.now());
+            Showing showing = reservation.getShowing();
+            return showing != null && !showing.getTime().toLocalDate().isBefore(LocalDate.now());
         }).toList();
    }
 
